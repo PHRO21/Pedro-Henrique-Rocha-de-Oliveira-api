@@ -37,16 +37,12 @@ public class ItemService {
 		return itemRepository.findAllByLista(lista);
 	}
 
-	public void marcaConcluido(Long id) {
-		ItemEntity item = itemRepository.findById(id)
-			.orElseThrow(() -> new NotFoundBussinessException("Item " + id + " não encontrado"));
+	public void marcaConcluido(ItemEntity item) {
 		item.setConcluido(true);
 		itemRepository.save(item);
 	}
 	
-	public void marcaNaoConcluido(Long id) {
-		ItemEntity item = itemRepository.findById(id)
-			.orElseThrow(() -> new NotFoundBussinessException("Item " + id + " não encontrado"));
+	public void marcaNaoConcluido(ItemEntity item) {
 		item.setConcluido(false);
 		itemRepository.save(item);
 	}

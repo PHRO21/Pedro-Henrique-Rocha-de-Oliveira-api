@@ -8,6 +8,8 @@ import lombok.Setter;
 @Setter
 public class ItemOutput {
 	
+	private Long id;
+	
 	private String titulo;
 	
 	private ListaEntity lista;

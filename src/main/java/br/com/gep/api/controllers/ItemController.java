@@ -70,7 +70,17 @@ public class ItemController {
 	
 	@PostMapping("/{id}/concluir")
 	@ResponseStatus(code= HttpStatus.OK)
-	public void marcaConcluido(@PathVariable Long id) {
-		itemService.marcaConcluido(id);
+	public ItemOutput marcaConcluido(@PathVariable Long id) {
+		ItemEntity itemEncontrada = itemService.buscaPorId(id);
+		itemService.marcaConcluido(itemEncontrada);
+		return itemConvert.entityToOutput(itemEncontrada);
+	}
+	
+	@PostMapping("/{id}/nao-concluir")
+	@ResponseStatus(code= HttpStatus.OK)
+	public ItemOutput desmarcaConcluido(@PathVariable Long id) {
+		ItemEntity itemEncontrada = itemService.buscaPorId(id);
+		itemService.marcaNaoConcluido(itemEncontrada);
+		return itemConvert.entityToOutput(itemEncontrada);
 	}
 }
