@@ -24,61 +24,75 @@ import br.com.gep.api.entities.ItemEntity;
 import br.com.gep.api.entities.ListaEntity;
 import br.com.gep.api.services.ItemService;
 import br.com.gep.api.services.ListaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Item")
 @RestController
 @RequestMapping(ControllerConfig.PRE_URL + "/itens")
 public class ItemController {
-	
+
 	@Autowired
 	private ItemConvert itemConvert;
-	
+
 	@Autowired
 	private ItemService itemService;
-	
+
 	@Autowired
 	private ListaService listaService;
-	
+
+	@Operation(summary = "Cria um novo item de lista")
 	@PostMapping("/cria")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public ItemOutput cria(@RequestBody @Valid ItemInput input) {
+	public ItemOutput cria(@Parameter(description = "Representação de um item") @RequestBody @Valid ItemInput input) {
 		ItemEntity item = itemConvert.inputToEntity(input);
 		ItemEntity itemCriada = itemService.cria(item);
 		return itemConvert.entityToOutput(itemCriada);
 	}
-	
+
+	@Operation(summary = "Altera um item existente")
 	@PutMapping("/{id}")
 	@ResponseStatus(code = HttpStatus.OK)
-	public ItemOutput altera(@PathVariable Long id, @RequestBody @Valid ItemInput input) {
+	public ItemOutput altera(@Parameter(description = "Id do item a ser alterado", example = "1") @PathVariable Long id,
+			@Parameter(description = "Representação de um item") @RequestBody @Valid ItemInput input) {
 		ItemEntity itemEncontrada = itemService.buscaPorId(id);
 		itemConvert.copyInputToEntity(input, itemEncontrada);
 		itemService.atualiza(itemEncontrada);
 		return itemConvert.entityToOutput(itemEncontrada);
 	}
-	
+
+	@Operation(summary = "Lista todos os itens de uma lista")
 	@GetMapping("/lista/{id}")
 	@ResponseStatus(code = HttpStatus.OK)
-	public List<ItemOutput> listaTodosItensDaLista(@PathVariable Long id){
+	public List<ItemOutput> listaTodosItensDaLista(
+			@Parameter(description = "Id da lista a serem buscados os itens", example = "1") @PathVariable Long id) {
 		ListaEntity lista = listaService.buscaPorId(id);
 		return itemConvert.listEntityToListOutput(itemService.buscaTodosDaLista(lista));
 	}
-	
+
+	@Operation(summary = "Deleta um item")
 	@DeleteMapping("/{id}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void deleta(@PathVariable Long id) {
+	public void deleta(@Parameter(description = "Id do item a ser deletado", example = "1") @PathVariable Long id) {
 		itemService.deleta(id);
 	}
-	
-	@PostMapping("/{id}/concluir")
-	@ResponseStatus(code= HttpStatus.OK)
-	public ItemOutput marcaConcluido(@PathVariable Long id) {
+
+	@Operation(summary = "Marca o item como concluído")
+	@PutMapping("/{id}/concluido")
+	@ResponseStatus(code = HttpStatus.OK)
+	public ItemOutput marcaConcluido(
+			@Parameter(description = "Id do item a ser marcado como concluído", example = "1") @PathVariable Long id) {
 		ItemEntity itemEncontrada = itemService.buscaPorId(id);
 		itemService.marcaConcluido(itemEncontrada);
 		return itemConvert.entityToOutput(itemEncontrada);
 	}
-	
-	@PostMapping("/{id}/nao-concluir")
-	@ResponseStatus(code= HttpStatus.OK)
-	public ItemOutput desmarcaConcluido(@PathVariable Long id) {
+
+	@Operation(summary = "Desmarca o item como concluído")
+	@PutMapping("/{id}/nao-concluido")
+	@ResponseStatus(code = HttpStatus.OK)
+	public ItemOutput desmarcaConcluido(
+			@Parameter(description = "Id do item a ser desmarcado como concluído", example = "1") @PathVariable Long id) {
 		ItemEntity itemEncontrada = itemService.buscaPorId(id);
 		itemService.marcaNaoConcluido(itemEncontrada);
 		return itemConvert.entityToOutput(itemEncontrada);

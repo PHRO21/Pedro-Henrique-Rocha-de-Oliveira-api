@@ -13,14 +13,14 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="tb_lista")
+@Table(name = "tb_lista")
 public class ListaEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
-	@Column(name="titulo", length = 100)
+
+	@Column(name = "titulo", length = 100)
 	private String titulo;
 }

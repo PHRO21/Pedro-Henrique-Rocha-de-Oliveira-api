@@ -7,12 +7,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ItemOutput {
-	
+
 	private Long id;
-	
+
 	private String titulo;
-	
+
 	private ListaEntity lista;
-	
+
 	private boolean concluido;
 }

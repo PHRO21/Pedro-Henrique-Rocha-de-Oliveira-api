@@ -15,20 +15,20 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="tb_item")
+@Table(name = "tb_item")
 public class ItemEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
-	@Column(name="titulo", length = 100)
+
+	@Column(name = "titulo", length = 100)
 	private String titulo;
-	
-	@Column(name="concluido")
-	private boolean concluido;
-	
+
+	@Column(name = "concluido")
+	private boolean concluido = false;
+
 	@ManyToOne
 	@JoinColumn(name = "lista_id")
 	private ListaEntity lista;

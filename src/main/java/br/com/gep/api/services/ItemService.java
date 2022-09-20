@@ -12,7 +12,7 @@ import br.com.gep.api.repositories.ItemRepository;
 
 @Service
 public class ItemService {
-	
+
 	@Autowired
 	private ItemRepository itemRepository;
 
@@ -41,7 +41,7 @@ public class ItemService {
 		item.setConcluido(true);
 		itemRepository.save(item);
 	}
-	
+
 	public void marcaNaoConcluido(ItemEntity item) {
 		item.setConcluido(false);
 		itemRepository.save(item);

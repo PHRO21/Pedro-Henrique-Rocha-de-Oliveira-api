@@ -15,7 +15,7 @@ import br.com.gep.api.entities.ListaEntity;
 
 @Component
 public class ListaConvert {
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 

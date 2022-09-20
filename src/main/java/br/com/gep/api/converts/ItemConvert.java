@@ -16,10 +16,10 @@ import br.com.gep.api.services.ListaService;
 
 @Component
 public class ItemConvert {
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@Autowired
 	private ListaService listaService;
 
